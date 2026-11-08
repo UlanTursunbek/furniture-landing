@@ -1,26 +1,268 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* -------------------------------------------------------------------------- */
+/*  Design tokens                                                             */
+/*  Palette: warm paper neutrals, graphite text, muted olive accent.          */
+/*  The shadcn semantic variables below are mapped onto this palette so       */
+/*  every ui/ component inherits the studio look automatically.               */
+/* -------------------------------------------------------------------------- */
 
 @theme inline {
+  /* Typography */
+  --font-sans: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-literata), ui-serif, Georgia, serif;
+  --font-heading: var(--font-literata), ui-serif, Georgia, serif;
+
+  /* Studio palette (raw) */
+  --color-paper: var(--paper);
+  --color-linen: var(--linen);
+  --color-sand: var(--sand);
+  --color-graphite: var(--graphite);
+  --color-graphite-soft: var(--graphite-soft);
+  --color-olive: var(--olive);
+  --color-olive-deep: var(--olive-deep);
+  --color-olive-tint: var(--olive-tint);
+
+  /* shadcn semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Radii: deliberately small. Furniture is crafted, not bubbly. */
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 3);
+  --radius-4xl: calc(var(--radius) * 4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Fluid type scale (mobile → desktop, no breakpoint jumps) */
+  --text-display: clamp(2.75rem, 1.55rem + 4.8vw, 6.25rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+
+  --text-headline: clamp(2rem, 1.4rem + 2.4vw, 3.5rem);
+  --text-headline--line-height: 1.08;
+  --text-headline--letter-spacing: -0.02em;
+
+  --text-title: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.01em;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.16em;
+
+  /* Spacing rhythm (base 4px scale stays Tailwind default) */
+  --spacing-gutter: clamp(1.25rem, 0.6rem + 2.8vw, 3.5rem);
+  --spacing-section: clamp(5rem, 3rem + 8vw, 10rem);
+
+  /* Layout */
+  --container-shell: 90rem;
+
+  /* Motion */
+  --ease-studio: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-rise: rise 900ms var(--ease-studio) both;
+  --animate-settle: settle 1600ms var(--ease-studio) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes settle {
+    from {
+      opacity: 0;
+      transform: scale(1.04);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+:root {
+  /* Raw palette */
+  --paper: #f7f4ee;
+  --linen: #efe9df;
+  --sand: #e4dccd;
+  --graphite: #2a2926;
+  --graphite-soft: #6b665d;
+  --olive: #5f6347;
+  --olive-deep: #474a33;
+  --olive-tint: #e7e6d8;
+
+  /* Semantic mapping */
+  --background: var(--paper);
+  --foreground: var(--graphite);
+  --card: #fbf9f5;
+  --card-foreground: var(--graphite);
+  --popover: #fbf9f5;
+  --popover-foreground: var(--graphite);
+  --primary: var(--graphite);
+  --primary-foreground: var(--paper);
+  --secondary: var(--linen);
+  --secondary-foreground: var(--graphite);
+  --muted: var(--linen);
+  --muted-foreground: var(--graphite-soft);
+  --accent: var(--olive-tint);
+  --accent-foreground: var(--olive-deep);
+  --destructive: #9c3b2a;
+  --border: #ddd5c7;
+  --input: #d3cab9;
+  --ring: var(--olive);
+
+  --radius: 0.25rem;
+}
+
+/* Warm dark palette, kept for shadcn compatibility (no toggle is exposed). */
+.dark {
+  --paper: #1c1b18;
+  --linen: #252420;
+  --sand: #34322c;
+  --graphite: #efeae1;
+  --graphite-soft: #b0a99c;
+  --olive: #a3a77f;
+  --olive-deep: #c4c7a3;
+  --olive-tint: #2f3124;
+
+  /* Semantic vars must be redeclared: var() resolves where it is declared. */
+  --background: var(--paper);
+  --foreground: var(--graphite);
+  --card: #22211d;
+  --card-foreground: var(--graphite);
+  --popover: #22211d;
+  --popover-foreground: var(--graphite);
+  --primary: var(--graphite);
+  --primary-foreground: var(--paper);
+  --secondary: var(--linen);
+  --secondary-foreground: var(--graphite);
+  --muted: var(--linen);
+  --muted-foreground: var(--graphite-soft);
+  --accent: var(--olive-tint);
+  --accent-foreground: var(--olive-deep);
+  --ring: var(--olive);
+  --destructive: #d9725f;
+  --border: #3a3832;
+  --input: #46433c;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Base styles                                                               */
+/* -------------------------------------------------------------------------- */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Set by the locale boot script until the saved language is rendered. */
+  html[data-locale-pending] body {
+    visibility: hidden;
+  }
+
+  body {
+    @apply bg-background text-base/relaxed text-foreground;
+    font-feature-settings: "kern", "liga";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading font-light text-balance;
+    font-optical-sizing: auto;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  ::selection {
+    background-color: var(--olive-tint);
+    color: var(--olive-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Layout & typographic utilities                                            */
+/* -------------------------------------------------------------------------- */
+
+/* Page shell: max width + fluid side gutter. */
+@utility shell {
+  width: 100%;
+  max-width: var(--container-shell);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+/* Small uppercase label used above headings and for captions. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
 }
