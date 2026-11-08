@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -66,13 +67,13 @@ export function Categories() {
 
       <div className="mt-section flex flex-col gap-8 border-t border-border pt-10 lg:flex-row lg:items-center lg:justify-between">
         <p className="text-lead max-w-[48ch] text-foreground">{categories.pricingNote}</p>
-        <a href={siteConfig.inquiryHref} className={buttonVariants({ size: "lg", className: "self-start lg:self-auto" })}>
+        <Link href={siteConfig.inquiryHref} className={buttonVariants({ size: "lg", className: "self-start lg:self-auto" })}>
           {categories.pricingCta}
           <ArrowRight
             aria-hidden
             className="transition-transform duration-300 ease-studio group-hover/button:translate-x-0.5"
           />
-        </a>
+        </Link>
       </div>
     </section>
   );

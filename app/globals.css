@@ -67,6 +67,10 @@
   --text-headline--line-height: 1.08;
   --text-headline--letter-spacing: -0.02em;
 
+  --text-subhead: clamp(1.75rem, 1.4rem + 1.3vw, 2.625rem);
+  --text-subhead--line-height: 1.12;
+  --text-subhead--letter-spacing: -0.015em;
+
   --text-title: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
   --text-title--line-height: 1.2;
   --text-title--letter-spacing: -0.01em;

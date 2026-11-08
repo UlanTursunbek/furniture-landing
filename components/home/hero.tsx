@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -35,13 +36,13 @@ export function Hero() {
           <div className="space-y-8 motion-safe:animate-rise motion-safe:[animation-delay:160ms]">
             <p className="text-lead max-w-[42ch] text-muted-foreground">{hero.lead}</p>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <a href={siteConfig.inquiryHref} className={buttonVariants({ size: "lg" })}>
+              <Link href={siteConfig.inquiryHref} className={buttonVariants({ size: "lg" })}>
                 {hero.primaryCta}
                 <ArrowRight
                   aria-hidden
                   className="transition-transform duration-300 ease-studio group-hover/button:translate-x-0.5"
                 />
-              </a>
+              </Link>
               <a href="#categories" className={buttonVariants({ variant: "link" })}>
                 {hero.secondaryCta}
               </a>

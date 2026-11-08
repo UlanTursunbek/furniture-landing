@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 import { htmlLang, localePendingAttribute, localeStorageKey } from "@/lib/i18n/config";
 import { useLocaleStore } from "@/lib/i18n/locale-store";
 import { useDictionary } from "@/lib/i18n/use-dictionary";
+import { siteConfig } from "@/lib/site-config";
 
 /**
  * Restores the saved locale after hydration and mirrors the active locale onto
@@ -38,7 +40,8 @@ export function LocaleSync() {
   // Next.js streams and hydrates its metadata <title> independently, which can
   // restore the server (default-locale) title after this effect runs. Keep the
   // localized title applied whenever <head> changes.
-  const title = dictionary.meta.title;
+  const pathname = usePathname();
+  const title = pathname === siteConfig.inquiryHref ? dictionary.meta.estimateTitle : dictionary.meta.title;
   useEffect(() => {
     if (!hydrated) return;
     const apply = () => {

@@ -4,10 +4,14 @@ import { ArrowUpRight } from "lucide-react";
 
 import { useDictionary } from "@/lib/i18n/use-dictionary";
 import { siteConfig } from "@/lib/site-config";
+import { buildWhatsAppUrl, getWhatsAppNumber } from "@/lib/whatsapp";
 
 export function SiteFooter() {
   const t = useDictionary();
   const { footer } = t;
+  // Contacts appear only once configured in lib/site-config.ts.
+  const whatsappNumber = getWhatsAppNumber();
+  const phone = siteConfig.phone.trim();
 
   const linkClass =
     "underline decoration-foreground/30 underline-offset-[5px] transition-colors duration-300 ease-studio hover:decoration-foreground";
@@ -25,29 +29,33 @@ export function SiteFooter() {
             {footer.contactsTitle}
           </h2>
           <dl className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-2">
-            <div>
-              <dt className="text-xs text-muted-foreground">{footer.phone}</dt>
-              <dd className="mt-2">
-                <a href={siteConfig.phone.href} className={`${linkClass} tabular-nums`}>
-                  {siteConfig.phone.display}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-xs text-muted-foreground">{footer.whatsapp}</dt>
-              <dd className="mt-2">
-                <a
-                  href={siteConfig.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${linkClass} inline-flex items-center gap-1`}
-                >
-                  {footer.whatsappAction}
-                  <ArrowUpRight aria-hidden className="size-4" />
-                  <span className="sr-only">({t.a11y.opensInNewTab})</span>
-                </a>
-              </dd>
-            </div>
+            {phone && (
+              <div>
+                <dt className="text-xs text-muted-foreground">{footer.phone}</dt>
+                <dd className="mt-2">
+                  <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className={`${linkClass} tabular-nums`}>
+                    {phone}
+                  </a>
+                </dd>
+              </div>
+            )}
+            {whatsappNumber && (
+              <div>
+                <dt className="text-xs text-muted-foreground">{footer.whatsapp}</dt>
+                <dd className="mt-2">
+                  <a
+                    href={buildWhatsAppUrl(whatsappNumber)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} inline-flex items-center gap-1`}
+                  >
+                    {footer.whatsappAction}
+                    <ArrowUpRight aria-hidden className="size-4" />
+                    <span className="sr-only">({t.a11y.opensInNewTab})</span>
+                  </a>
+                </dd>
+              </div>
+            )}
             <div>
               <dt className="text-xs text-muted-foreground">{footer.address}</dt>
               <dd className="mt-2">{footer.city}</dd>
